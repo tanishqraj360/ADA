@@ -17,24 +17,34 @@ void topologicalSort() {
       }
     }
   }
+
   while (count < n) {
+    int found = 0;
     for (i = 0; i < n; i++) {
       if (indegree[i] == 0) {
         top_order[count++] = i;
         indegree[i] = -1;
-      }
-      for (j = 0; j < n; j++) {
-        if (adj[i][j] == 1) {
-          indegree[j]--;
+        found = 1;
+        for (j = 0; j < n; j++) {
+          if (adj[i][j] == 1) {
+            indegree[j]--;
+          }
         }
+        break;
       }
-      break;
+    }
+    if (!found) {
+      printf("A cycle was detected in the graph. Topological sort not "
+             "possible. \n");
+      return;
     }
   }
+
   printf("Topological Ordering: ");
   for (i = 0; i < n; i++) {
     printf("%d", top_order[i]);
   }
+  printf("\n");
 }
 
 int main() {
