@@ -1,6 +1,6 @@
 #include <stdio.h>
-#define V 4
 #define INF 99999
+int V;
 
 void printSolution(int dist[][V]) {
   printf("\nFinal Matrix\n");
@@ -38,8 +38,20 @@ void floydWarshall(int dist[][V]) {
 }
 
 int main() {
-  int graph[V][V] = {
-      {0, 5, INF, 10}, {INF, 0, 3, INF}, {INF, INF, 0, 1}, {INF, INF, INF, 0}};
+
+  // Custom input
+  // int graph[V][V] = {
+  //     {0, 5, INF, 10}, {INF, 0, 3, INF}, {INF, INF, 0, 1}, {INF, INF, INF,
+  //     0}};
+  printf("Enter number of vertices: ");
+  scanf("%d", &V);
+  int graph[V][V];
+  printf("Enter Distance Matrix: ");
+  for (int i = 0; i < V; i++) {
+    for (int j = 0; j < V; j++) {
+      scanf("%d", &graph[i][j]);
+    }
+  }
 
   floydWarshall(graph);
   return 0;
