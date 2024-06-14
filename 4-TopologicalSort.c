@@ -42,7 +42,7 @@ void topologicalSort() {
 
   printf("Topological Ordering: ");
   for (i = 0; i < n; i++) {
-    printf("%d", top_order[i]);
+    printf("%d ", top_order[i]);
   }
   printf("\n");
 }

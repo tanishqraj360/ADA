@@ -1,58 +1,61 @@
-#include <stdio.h>
-#define INF 99999
-int V;
 
-void printSolution(int dist[][V]) {
-  printf("\nFinal Matrix\n");
-  for (int i = 0; i < V; i++) {
-    for (int j = 0; j < V; j++) {
-      if (dist[i][j] == INF) {
-        printf("%6s", "INF");
+#include <stdio.h>
+
+int min(int a, int b) {
+  if (a < b)
+    return (a);
+  else
+    return (b);
+}
+
+void floyds(int p[10][10], int n) {
+  int i, j, k;
+  for (k = 1; k <= n; k++)
+    for (i = 1; i <= n; i++)
+      for (j = 1; j <= n; j++)
+        if (i == j)
+          p[i][j] = 0;
+        else
+          p[i][j] = min(p[i][j], p[i][k] + p[k][j]);
+}
+
+void main() {
+  int p[10][10], w, n, e, u, v, i, j;
+  printf("\n Enter the number of vertices:");
+  scanf("%d", &n);
+  printf("\n Enter the number of edges:\n");
+  scanf("%d", &e);
+  for (i = 1; i <= n; i++) {
+    for (j = 1; j <= n; j++)
+      if (i == j) {
+        p[i][j] = 0;
       } else {
-        printf("%6d", dist[i][j]);
+        p[i][j] = 999;
       }
-    }
+  }
+  for (i = 1; i <= e; i++) {
+    printf("\n Enter the edge %d with its weight \n", i);
+    scanf("%d%d%d", &u, &v, &w);
+    p[u][v] = w;
+  }
+  printf("\n Matrix of input data:\n");
+  for (i = 1; i <= n; i++) {
+    for (j = 1; j <= n; j++)
+      printf("%d \t", p[i][j]);
     printf("\n");
   }
-}
-
-void floydWarshall(int dist[][V]) {
-  int i, j, k;
-  for (k = 0; k < V; k++) {
-    printf("\nMatrix\n");
-    for (i = 0; i < V; i++) {
-      for (j = 0; j < V; j++) {
-        if (dist[i][k] + dist[k][j] < dist[i][j]) {
-          dist[i][j] = dist[i][k] + dist[k][j];
-        }
-        if (dist[i][j] == INF) {
-          printf("%6s", "INF");
-        } else {
-          printf("%6d", dist[i][j]);
-        }
-      }
-      printf("\n");
-    }
+  floyds(p, n);
+  printf("\n Shortest Path matrix is:\n");
+  for (i = 1; i <= n; i++) {
+    for (j = 1; j <= n; j++)
+      printf("%d \t", p[i][j]);
+    printf("\n");
   }
-  printSolution(dist);
-}
-
-int main() {
-
-  // Custom input
-  // int graph[V][V] = {
-  //     {0, 5, INF, 10}, {INF, 0, 3, INF}, {INF, INF, 0, 1}, {INF, INF, INF,
-  //     0}};
-  printf("Enter number of vertices: ");
-  scanf("%d", &V);
-  int graph[V][V];
-  printf("Enter Distance Matrix: ");
-  for (int i = 0; i < V; i++) {
-    for (int j = 0; j < V; j++) {
-      scanf("%d", &graph[i][j]);
+  printf("\n The shortest paths are:\n");
+  for (i = 1; i <= n; i++)
+    for (j = 1; j <= n; j++) {
+      if (i != j)
+        printf("\n <%d,%d>=%d", i, j, p[i][j]);
     }
-  }
-
-  floydWarshall(graph);
-  return 0;
 }
+

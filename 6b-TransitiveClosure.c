@@ -1,36 +1,32 @@
 #include <stdio.h>
-#define MAX 100
 
-int n;
-int adj[MAX][MAX];
+int n, a[10][10], p[10][10];
 
-void warshallalgo() {
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      for (int k = 0; k < n; k++) {
-        adj[i][j] = adj[i][j] || adj[i][k] && adj[k][j];
-      }
-    }
-  }
+void path() {
+  int i, j, k;
+  for (i = 0; i < n; i++)
+    for (j = 0; j < n; j++)
+      p[i][j] = a[i][j];
+  for (k = 0; k < n; k++)
+    for (i = 0; i < n; i++)
+      for (j = 0; j < n; j++)
+        if (p[i][k] == 1 && p[k][j] == 1)
+          p[i][j] = 1;
 }
 
-int main() {
-  printf("Enter the number of vertices: ");
+void main() {
+  int i, j;
+  printf("Enter the number of nodes:");
   scanf("%d", &n);
-  printf("Enter the adjacency matrix:\n");
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      scanf("%d", &adj[i][j]);
-    }
-  }
-
-  warshallalgo();
-  printf("The resultant matrix is: \n");
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      printf("%6d", adj[i][j]);
-    }
+  printf("\nEnter the adjacency matrix:\n");
+  for (i = 0; i < n; i++)
+    for (j = 0; j < n; j++)
+      scanf("%d", &a[i][j]);
+  path();
+  printf("\nThe Transitive Closure is shown below\n");
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++)
+      printf("%d ", p[i][j]);
     printf("\n");
   }
-  return 0;
 }
